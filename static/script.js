@@ -50,8 +50,30 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    canvas.addEventListener("mouseup", () => {
-        isDragging = false;
+    document.body.addEventListener("mouseup", (event) => {
+        if (isDragging) {
+            isDragging = false;
+
+            const rect = canvas.getBoundingClientRect();
+            const dropX = event.clientX - rect.left;
+            const dropY = event.clientY - rect.top;
+
+            // Check if drop position is outside the canvas
+            if (dropX < 0 || dropX > canvas.width || dropY < 0 || dropY > canvas.height) {
+                console.log("Dropped outside canvas, deleting instance.");
+
+                // Find and remove the image under the cursor
+                for (let i = 0; i < images.length; i++) {
+                    if (event.clientX >= images[i].x && event.clientX <= images[i].x + 50 &&
+                        event.clientY >= images[i].y && event.clientY <= images[i].y + 50) {
+                        images.splice(i, 1);
+                        break;
+                    }
+                }
+
+                drawCanvas();
+            }
+        }
     });
 
     function dragStart(event) {
@@ -76,6 +98,25 @@ document.addEventListener("DOMContentLoaded", function() {
         let dropY = event.clientY - rect.top - offsetY + 25;
 
         console.log(`Drop position: (${dropX}, ${dropY})`);
+
+        // Check if drop position is outside the canvas
+        if (dropX < 0 || dropX > canvas.width || dropY < 0 || dropY > canvas.height) {
+            console.log("Dropped outside canvas, deleting instance.");
+
+            // Find and remove the image under the cursor
+            const canvasX = event.clientX - rect.left;
+            const canvasY = event.clientY - rect.top;
+            for (let i = 0; i < images.length; i++) {
+                if (canvasX >= images[i].x && canvasX <= images[i].x + 50 &&
+                    canvasY >= images[i].y && canvasY <= images[i].y + 50) {
+                    images.splice(i, 1);
+                    break;
+                }
+            }
+
+            drawCanvas();
+            return;
+        }
 
         const snappedX = Math.floor(dropX / gridSize) * gridSize + (gridSize / 2 - 25);
         const snappedY = Math.floor(dropY / gridSize) * gridSize + (gridSize / 2 - 25);
