@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag & Drop App with Snapping Grid</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="toolbar">
+        <img src="stop.png" alt="Stop" class="icon" draggable="true">
+        <img src="train.png" alt="Train" class="icon" draggable="true">
+        <img src="trecker.png" alt="Trecker" class="icon" draggable="true">
+        <div class="separator"></div>
+        <img src="delete.png" alt="Delete" class="icon" draggable="true">
+    </div>
+    <div class="raster-container">
+        <canvas id="raster" width="1024" height="1024"></canvas>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.toolbar {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    cursor: grab;
+}
+
+.separator {
+    width: 1px;
+    height: 50px;
+    background-color: #ccc;
+    margin: 0 10px;
+}
+
+.raster-container {
+    width: 1024px;
+    height: 1024px;
+    border: 2px dashed #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-color: #f0f0f0;
+}
+
+canvas {
+    border: 1px solid #000;
+}
