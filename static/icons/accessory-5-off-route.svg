@@ -1,0 +1,8 @@
+<svg width="100%" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <path stroke="rgb(0,0,0)" fill="rgb(0,0,0)" d="M 0,13 L 31,13 L 31,18 L 0,18 z "/>
+    <path stroke="rgb(255,255,150)" fill="rgb(255,255,150)" d="M 0,14 L 31,14 L 31,17 L 0,17 z "/>
+    <rect x="8" y="8" width="16" height="16" rx="2" stroke="black" fill="white"/>
+    <rect x="11" y="11" width="10" height="10" rx="2" stroke="black" fill="white"/>
+  </g>
+</svg>

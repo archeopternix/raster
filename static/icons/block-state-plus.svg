@@ -1,0 +1,27 @@
+<svg ledsupport="true" width="100%" viewBox="0 0 128 32" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <!-- Block -->
+    <rect led="1" x="23" y="4" rx="0" width="105" height="24" stroke="black" fill="white"/>
+    <rect txt="1" x="36" y="6" rx="0" width="81" height="20" stroke="none" fill="none"/>
+
+    <!-- Plus side -->
+    <line stroke="black" x1="27" y1="23" x2="31" y2="23"/>
+    <line stroke="black" x1="29" y1="21" x2="29" y2="25"/>
+
+    <!-- Plus side arrow -->
+    <polygon led="5" points="27,16 34,11 34,21 27,16" fill="none" stroke="none"/>
+
+    <!-- Min side arrow -->
+    <polygon led="6" points="125,16 118,11 118,21 125,16" fill="none" stroke="none"/>
+
+    <!-- Plus side sensor -->
+    <rect led="3" x="23" y="4" rx="0" width="8" height="8" stroke="none" fill="none"/>
+
+    <!-- Min side sensor -->
+    <rect led="4" x="120" y="20" rx="0" width="8" height="8" stroke="none" fill="none"/>
+
+    <!--- State -->
+    <rect led="2" x="0" y="4" rx="0" width="24" height="24" stroke="black" fill="white"/>
+    <rect txt="2" txtalign="center" x="2" y="6" rx="0" width="20" height="20" stroke="none" fill="none"/>
+  </g>
+</svg>

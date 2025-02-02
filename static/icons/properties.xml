@@ -1,0 +1,12 @@
+<theme id="SLIM-COLOR" slim="true" color="true" free="16777215" occ="9869055" res="9895935" ent="16752800" close="13158600" ghost="255" sc="65535" aident="9895830" shunt="16384000" arrow="14" auto="13172680" halfauto="16763080" nodest="13172735">
+  <panel red="179" green="179" blue="178" border="false"/>
+  <block showid="true" red="0" green="0" blue="0"/>
+  <themeblock red="0" green="0" blue="0" showid="true"/>
+  <shortcut red="255" green="255" blue="102" show="true"/>
+  <shortcircuit show="true"/>
+  <outofordercolor/>
+  <lockedcolor/>
+  <staticcolor/>
+  <pendingcolor/>
+  <selectcolor/>
+</theme>

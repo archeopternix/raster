@@ -1,0 +1,8 @@
+<svg width="100%" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <path stroke="rgb(0,0,0)" fill="rgb(255,255,255)" d="M 0,12 L 0,18 L 13,5 L 7,5 z "/>
+    <path stroke="rgb(255,150,150)" fill="rgb(255,150,150)" d="M 0,13 L 0,17 L 12,5 L 8,5 z "/>
+    <path stroke="rgb(100,100,100)" fill="none" d="M 4,5 L 24,5 z "/>
+    <path stroke="rgb(100,100,100)" fill="none" d="M 4,2 L 24,2 z "/>
+  </g>
+</svg>
