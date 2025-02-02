@@ -70,7 +70,6 @@ document.addEventListener("DOMContentLoaded", function() {
             draggedElement.y = snappedY;
 
             drawCanvas();
-            saveState();
         }
     });
 
@@ -86,14 +85,15 @@ document.addEventListener("DOMContentLoaded", function() {
             if (dropX < 0 || dropX > canvas.width || dropY < 0 || dropY > canvas.height) {
                 // Find and remove the image under the cursor
                 for (let i = 0; i < images.length; i++) {
-                    if (event.clientX >= images[i].x && event.clientX <= images[i].x + 50 &&
-                        event.clientY >= images[i].y && event.clientY <= images[i].y + 50) {
+                    if (draggedElement && images[i] === draggedElement) {
                         images.splice(i, 1);
                         drawCanvas();
                         saveState();
                         break;
                     }
                 }
+            } else {
+                saveState();
             }
         }
     });
@@ -139,6 +139,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function drop(event) {
         event.preventDefault();
         const iconSrc = event.dataTransfer.getData("text/plain");
+        const iconName = iconSrc.substring(iconSrc.lastIndexOf('/') + 1, iconSrc.lastIndexOf('.'));
 
         const rect = canvas.getBoundingClientRect();
         let dropX = event.clientX - rect.left;
@@ -155,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const img = new Image();
         img.src = iconSrc;
         img.onload = function() {
-            images.push({ img, x: snappedX, y: snappedY, src: iconSrc, angle: 0 });
+            images.push({ img, x: snappedX, y: snappedY, name: iconName, angle: 0 });
             drawCanvas();
             saveState();
         };
@@ -203,9 +204,9 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to save the state of all images and submit to server
     function saveState() {
         const state = images.map(img => ({
-            src: img.src,
-            gridX: img.x / gridSize,
-            gridY: img.y / gridSize,
+            name: img.name,
+            gridX: Math.round(img.x / gridSize),
+            gridY: Math.round(img.y / gridSize),
             angle: img.angle || 0
         }));
         console.log(JSON.stringify(state));
