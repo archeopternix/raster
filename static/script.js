@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
     let isDragging = false;
     let startX, startY;
 
+    let clickTimer = null; // Timer to differentiate between single and double clicks
+
     // Prevent the default context menu from appearing
     document.addEventListener("contextmenu", (event) => {
         event.preventDefault();
@@ -41,21 +43,34 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         } else { // Left-click
             hideContextMenu();
-            const rect = canvas.getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
-
-            for (const img of images) {
-                if (x >= img.x && x <= img.x + 50 && y >= img.y && y <= img.y + 50) {
-                    draggedElement = img;
-                    isDragging = true;
-                    startX = x - img.x;
-                    startY = y - img.y;
-                    return;
-                }
+            if (clickTimer) {
+                clearTimeout(clickTimer);
+                clickTimer = null;
+                handleDoubleClick(event);
+            } else {
+                clickTimer = setTimeout(() => {
+                    clickTimer = null;
+                    handleMouseDown(event);
+                }, 250); // Delay to detect double-click (250ms)
             }
         }
     });
+
+    function handleMouseDown(event) {
+        const rect = canvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        for (const img of images) {
+            if (x >= img.x && x <= img.x + 50 && y >= img.y && y <= img.y + 50) {
+                draggedElement = img;
+                isDragging = true;
+                startX = x - img.x;
+                startY = y - img.y;
+                return;
+            }
+        }
+    }
 
     document.addEventListener("mousemove", (event) => {
         if (isDragging) {
@@ -97,6 +112,22 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
     });
+
+    // Handle double-click to rotate image to the right
+    function handleDoubleClick(event) {
+        const rect = canvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        for (const img of images) {
+            if (x >= img.x && x <= img.x + 50 && y >= img.y && y <= img.y + 50) {
+                img.angle = (img.angle || 0) + 90;
+                drawCanvas();
+                saveState();
+                return;
+            }
+        }
+    }
 
     document.getElementById("rotate-left").addEventListener("click", () => {
         if (selectedImage) {
@@ -176,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function drawGrid() {
         ctx.strokeStyle = "#ddd";
-        for (let x = 0; x <= canvas.width; x += gridSize) {
+        for (let x = 0;  x <= canvas.width; x += gridSize) {
             ctx.beginPath();
             ctx.moveTo(x, 0);
             ctx.lineTo(x, canvas.height);
