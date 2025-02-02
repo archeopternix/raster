@@ -21,6 +21,40 @@ type Response struct {
 	Data    []ImageState `json:"data"`
 }
 
+const (
+	North byte = 1
+	South byte = 2
+	East  byte = 4
+	West  byte = 8
+)
+
+// Connections is a bit block
+//
+//	1 .. North
+//	2 .. South
+//	4 .. East
+//	8 .. West
+type Block struct {
+	Name        string
+	Connections byte
+}
+
+func (b Block) HasConnection(conn byte) bool {
+	if (b.Connections & conn) != 0 {
+		return true
+	}
+	return false
+}
+
+var Blocks = []Block{
+	Block{"straight", East & West},
+	Block{"curve", South & West},
+	Block{"turnoutleft", South & East & West},
+	Block{"turnoutright", East & West},
+	Block{"sensor-off", East & West},
+	Block{"threeway", North & South & East & West},
+}
+
 // handleGridUpdate handles the POST request to /api/grid/update
 func handleGridUpdate(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {

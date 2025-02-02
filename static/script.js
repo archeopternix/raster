@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     const icons = document.querySelectorAll(".icon");
+    const deleteIcon = document.querySelector(".delete-icon");
     const canvas = document.getElementById("raster");
     const ctx = canvas.getContext("2d");
     const contextMenu = document.getElementById("context-menu");
@@ -13,6 +14,17 @@ document.addEventListener("DOMContentLoaded", function() {
     let startX, startY;
 
     let clickTimer = null; // Timer to differentiate between single and double clicks
+
+    // Adjust canvas size to fit the screen with specified gaps
+    function adjustCanvasSize() {
+        const horizontalGap = 50;
+        const topGap = 150;
+        canvas.width = window.innerWidth - 2 * horizontalGap;
+        canvas.height = window.innerHeight - topGap - horizontalGap;
+    }
+
+    window.addEventListener('resize', adjustCanvasSize);
+    adjustCanvasSize(); // Initial adjustment
 
     // Prevent the default context menu from appearing
     document.addEventListener("contextmenu", (event) => {
@@ -207,7 +219,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function drawGrid() {
         ctx.strokeStyle = "#ddd";
-        for (let x = 0;  x <= canvas.width; x += gridSize) {
+        for (let x = 0; x <= canvas.width; x += gridSize) {
             ctx.beginPath();
             ctx.moveTo(x, 0);
             ctx.lineTo(x, canvas.height);
@@ -240,7 +252,6 @@ document.addEventListener("DOMContentLoaded", function() {
             gridY: Math.round(img.y / gridSize),
             angle: img.angle || 0
         }));
-        console.log(JSON.stringify(state));
         submitStateToServer(state);
     }
 

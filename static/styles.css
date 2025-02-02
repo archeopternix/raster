@@ -40,8 +40,8 @@ body {
 }
 
 .raster-container {
-    width: 1024px;
-    height: 1024px;
+    width: calc(100% - 100px); /* 50px gap from left and right */
+    height: calc(100% - 200px); /* 150px gap from top and 50px gap from bottom */
     border: 2px dashed #ccc;
     display: flex;
     justify-content: center;
