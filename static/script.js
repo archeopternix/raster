@@ -1,3 +1,30 @@
+/**
+ * Event Listeners Documentation
+ * 
+ * 1. DOMContentLoaded: Initializes the script once the DOM is fully loaded. Sets up the canvas size, 
+ *    prevents the default context menu, and adds other event listeners for icon drag-and-drop, 
+ *    canvas interactions, and context menu actions.
+ * 
+ * 2. resize: Adjusts the canvas size when the browser window is resized. Calls the adjustCanvasSize function.
+ * 
+ * 3. contextmenu: Prevents the default context menu from appearing on right-click. Attached to the document object.
+ * 
+ * 4. dragstart: Makes icons draggable by setting data on the dragstart event. Attached to each icon element.
+ * 
+ * 5. dragover: Allows dropping by preventing the default behavior of the dragover event. Attached to the canvas element.
+ * 
+ * 6. drop: Handles the drop event to place an image on the canvas. Attached to the canvas element.
+ * 
+ * 7. mousedown: Handles mouse down events on the canvas, differentiating between left and right clicks. 
+ *    On right-click, shows the context menu if an image is clicked. On left-click, initiates dragging or 
+ *    detects double-clicks for image rotation.
+ * 
+ * 8. mousemove: Handles mouse move events to drag images on the canvas. Updates the position of the dragged 
+ *    image and redraws the canvas. Attached to the document object.
+ * 
+ * 9. mouseup: Handles mouse up events to finalize dragging of images. Checks if the drop position is outside 
+ *    the canvas and removes the image if necessary. Attached to the document object.
+ */
 document.addEventListener("DOMContentLoaded", function() {
     const icons = document.querySelectorAll(".icon");
     const deleteIcon = document.querySelector(".delete-icon");
@@ -15,7 +42,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     let clickTimer = null; // Timer to differentiate between single and double clicks
 
-    // Adjust canvas size to fit the screen with specified gaps
+    /**
+     * Adjusts the canvas size to fit the screen with specified gaps.
+     */
     function adjustCanvasSize() {
         const horizontalGap = 50;
         const topGap = 150;
@@ -23,22 +52,41 @@ document.addEventListener("DOMContentLoaded", function() {
         canvas.height = window.innerHeight - topGap - horizontalGap;
     }
 
+    /**
+     * Adjusts the canvas size when the window is resized.
+     */
     window.addEventListener('resize', adjustCanvasSize);
     adjustCanvasSize(); // Initial adjustment
 
-    // Prevent the default context menu from appearing
+    /**
+     * Prevents the default context menu from appearing on right-click.
+     */
     document.addEventListener("contextmenu", (event) => {
         event.preventDefault();
     });
 
+    /**
+     * Makes icons draggable by setting data on the dragstart event.
+     */
     icons.forEach(icon => {
         icon.addEventListener("dragstart", dragStart);
     });
 
+    /**
+     * Allows dropping by preventing the default behavior of the dragover event.
+     */
     canvas.addEventListener("dragover", dragOver);
+
+    /**
+     * Handles the drop event to place an image on the canvas.
+     */
     canvas.addEventListener("drop", drop);
 
-    // Make dropped images draggable
+    /**
+     * Handles mouse down events on the canvas.
+     * On right-click, shows the context menu if an image is clicked.
+     * On left-click, initiates dragging or detects double-clicks for image rotation.
+     */
     canvas.addEventListener("mousedown", (event) => {
         if (event.button === 2) { // Right-click
             event.preventDefault();
@@ -68,22 +116,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    function handleMouseDown(event) {
-        const rect = canvas.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-
-        for (const img of images) {
-            if (x >= img.x && x <= img.x + 50 && y >= img.y && y <= img.y + 50) {
-                draggedElement = img;
-                isDragging = true;
-                startX = x - img.x;
-                startY = y - img.y;
-                return;
-            }
-        }
-    }
-
+    /**
+     * Handles mouse move events to drag images on the canvas.
+     */
     document.addEventListener("mousemove", (event) => {
         if (isDragging) {
             const rect = canvas.getBoundingClientRect();
@@ -100,6 +135,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    /**
+     * Handles mouse up events to finalize dragging of images.
+     */
     document.addEventListener("mouseup", (event) => {
         if (isDragging) {
             isDragging = false;
@@ -125,7 +163,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Handle double-click to rotate image to the right
+    /**
+     * Handles double-click event to rotate an image to the right.
+     */
     function handleDoubleClick(event) {
         const rect = canvas.getBoundingClientRect();
         const x = event.clientX - rect.left;
@@ -141,6 +181,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    /**
+     * Rotates the selected image to the left by 90 degrees and redraws the canvas.
+     */
     document.getElementById("rotate-left").addEventListener("click", () => {
         if (selectedImage) {
             selectedImage.angle = (selectedImage.angle || 0) - 90;
@@ -150,6 +193,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    /**
+     * Rotates the selected image to the right by 90 degrees and redraws the canvas.
+     */
     document.getElementById("rotate-right").addEventListener("click", () => {
         if (selectedImage) {
             selectedImage.angle = (selectedImage.angle || 0) + 90;
@@ -159,6 +205,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    /**
+     * Removes the selected image from the canvas and redraws the canvas.
+     */
     document.getElementById("remove").addEventListener("click", () => {
         if (selectedImage) {
             const index = images.indexOf(selectedImage);
@@ -171,14 +220,23 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    /**
+     * Makes icons draggable by setting data on the dragstart event.
+     */
     function dragStart(event) {
         event.dataTransfer.setData("text/plain", event.target.src);
     }
 
+    /**
+     * Allows dropping by preventing the default behavior of the dragover event.
+     */
     function dragOver(event) {
         event.preventDefault();
     }
 
+    /**
+     * Handles the drop event to place an image on the canvas.
+     */
     function drop(event) {
         event.preventDefault();
         const iconSrc = event.dataTransfer.getData("text/plain");
@@ -205,6 +263,9 @@ document.addEventListener("DOMContentLoaded", function() {
         };
     }
 
+    /**
+     * Draws the entire canvas including the grid and all images.
+     */
     function drawCanvas() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawGrid();
@@ -217,6 +278,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    /**
+     * Draws the grid on the canvas.
+     */
     function drawGrid() {
         ctx.strokeStyle = "#ddd";
         for (let x = 0; x <= canvas.width; x += gridSize) {
@@ -234,17 +298,25 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    /**
+     * Shows the context menu at the specified position.
+     */
     function showContextMenu(x, y) {
         contextMenu.style.left = `${x}px`;
         contextMenu.style.top = `${y}px`;
         contextMenu.style.display = 'block';
     }
 
+    /**
+     * Hides the context menu.
+     */
     function hideContextMenu() {
         contextMenu.style.display = 'none';
     }
 
-    // Function to save the state of all images and submit to server
+    /**
+     * Saves the state of all images and submits it to the server.
+     */
     function saveState() {
         const state = images.map(img => ({
             name: img.name,
@@ -255,7 +327,9 @@ document.addEventListener("DOMContentLoaded", function() {
         submitStateToServer(state);
     }
 
-    // Function to submit the state to the server
+    /**
+     * Submits the state to the server.
+     */
     function submitStateToServer(state) {
         fetch('/api/grid/update', {
             method: 'POST',
