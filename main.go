@@ -1,3 +1,6 @@
+// Package main provides a web server that serves static files (html, css, javascript) and handles API requests
+// for updating the state of images on a grid. 
+// The web server listens on port 8080.
 package main
 
 import (
